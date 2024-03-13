@@ -18,7 +18,7 @@ namespace PUCorporate.Model.Model
         public string? Jwt { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? IsAdmin { get; set; }
+        public bool? IsAdmin { get; set; }
         public string? PhoneExt { get; set; }
         [EmailAddress]
         public string? Email { get; set; }

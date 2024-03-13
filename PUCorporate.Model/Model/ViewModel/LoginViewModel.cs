@@ -10,9 +10,13 @@ namespace PUCorporate.Model.Model.ViewModel
     public class LoginViewModel
     {
       
-        public string? Email { get; set; }
-        public string? Token { get; set; }
-     
-        public string? UserId { get; set; }
+        public string? EmailAddress { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? LoginName { get; set; }
+        public int? LoginID { get; set; }
+        public string? jwtToken { get; set; }
+        public bool? IsAdmin { get; set; }
+
     }
 }

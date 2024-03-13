@@ -10,11 +10,11 @@ namespace PUCorporate.Model.DTO
     public class LoginDTO
     {
         [Required]
-        public string Loginname { get; set; }
+        public string username { get; set; }
         [Required]
         public string Password { get; set; }
 
-        // public string? Token { get; set; }
+         public string? Token { get; set; }
 
        // public string? Jwt { get; set; }
     }

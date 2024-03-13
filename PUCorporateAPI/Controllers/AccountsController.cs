@@ -12,11 +12,13 @@ using PUCorporate.CommonHelper;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Cors;
 
 namespace PUCorporateAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("MyCorsPolicy")]
     public class AccountsController : ControllerBase
     {
         private readonly IAuthData _authService;
@@ -48,19 +50,19 @@ namespace PUCorporateAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm]LoginDTO loginDTO)
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
         {
-            if (string.IsNullOrWhiteSpace(loginDTO.Loginname)  & string.IsNullOrWhiteSpace(loginDTO.Password))
+            if (string.IsNullOrWhiteSpace(loginDTO.username)  & string.IsNullOrWhiteSpace(loginDTO.Password))
             {
                 return Content("Email or Password required!");
             }
-            var jwt = GenerateJwt(loginDTO.Loginname.ToString(), UserToken.Token);
+            var jwt = GenerateJwt(loginDTO.username.ToString(), loginDTO.Token);
 
             User user = new ()
             {
-            LoginName=loginDTO.Loginname,
+            LoginName=loginDTO.username,
             Password=loginDTO.Password,
-            Token= UserToken.Token,
+            Token= loginDTO.Token,
             Jwt=jwt
             };
 
@@ -74,13 +76,17 @@ namespace PUCorporateAPI.Controllers
                 return Unauthorized("Invalid credentials.");
             }
 
-          
+
             LoginViewModel loginModel = new()
             {
-                Email = loginDTO.Loginname,
-
-                Token = jwt,
-                UserId = result.LoginName,
+                EmailAddress = result.Email,
+                FirstName = result.FirstName,
+                IsAdmin = result.IsAdmin,
+                LoginID = result.LoginID,
+                LoginName = result.LoginName,
+                LastName = result.LastName,
+                jwtToken = jwt,
+            
             };
             return Ok(loginModel);
         }
